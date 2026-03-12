@@ -5,9 +5,9 @@ export default defineConfig({
   format: ["cjs", "esm"],
   dts: true,
   clean: true,
-  sourcemap: true,
+  sourcemap: false,
   target: "es2020",
-  external: ["react", "tubby"],
+  external: ["react", "@ludoows/tubby"],
   banner: {
     js: "'use client';",
   },

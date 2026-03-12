@@ -1,6 +1,6 @@
 {
   "name": "@ludoows/tubby-react",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "React integration for Tubby pipeline orchestrator",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -19,7 +19,7 @@
   },
   "peerDependencies": {
     "react": ">=18",
-    "@ludoows/tubby": ">=0.1.0"
+    "@ludoows/tubby": ">=0.2.0"
   },
   "devDependencies": {
     "@testing-library/react": "^14.3.1",
