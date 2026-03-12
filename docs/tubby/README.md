@@ -5,13 +5,13 @@ Pipeline orchestrator for TypeScript. Lightweight, expressive, fully typed.
 ## Install
 
 ```sh
-npm install tubby
+npm install @ludoows/tubby
 ```
 
 ## Quick start
 
 ```ts
-import { pipeline, map, tap } from 'tubby'
+import { pipeline, map, tap } from '@ludoows/tubby'
 
 const result = await pipeline({ name: 'alice', score: 0 })
   .through([
@@ -36,7 +36,7 @@ Each step receives `(payload, next, context, stop)`:
 ### Writing a step
 
 ```ts
-import type { Step } from 'tubby'
+import type { Step } from '@ludoows/tubby'
 
 const addTax: Step<{ price: number }> = {
   name: 'addTax',
@@ -86,7 +86,7 @@ const result = await pipeline({ ownerId: '42' })
 ### Stopping early
 
 ```ts
-import { map } from 'tubby'
+import { map } from '@ludoows/tubby'
 
 const earlyExit: Step<{ approved: boolean; total: number }> = {
   name: 'earlyExit',

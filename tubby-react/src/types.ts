@@ -1,6 +1,6 @@
 "use client";
 
-import type { PipelineBuilder } from "tubby";
+import type { PipelineBuilder } from "@ludoows/tubby";
 
 export type PipelineFactory<TPayload> = () => PipelineBuilder<
   TPayload,

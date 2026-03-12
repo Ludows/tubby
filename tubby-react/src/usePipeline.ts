@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useReducer, useRef } from "react";
-import type { PipelineBuilder } from "tubby";
+import type { PipelineBuilder } from "@ludoows/tubby";
 import type {
   PipelineAction,
   PipelineFactory,

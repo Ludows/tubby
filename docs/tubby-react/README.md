@@ -5,7 +5,7 @@ React integration for tubby. Wraps any pipeline in a hook with loading, error, a
 ## Install
 
 ```sh
-npm install tubby tubby-react
+npm install @ludoows/tubby @ludoows/tubby-react
 ```
 
 Requires React ≥ 18 as a peer dependency.
@@ -13,8 +13,8 @@ Requires React ≥ 18 as a peer dependency.
 ## Quick start
 
 ```tsx
-import { usePipeline, pipeline, map, tap } from 'tubby'
-import { usePipeline } from 'tubby-react'
+import { usePipeline, pipeline, map, tap } from '@ludoows/tubby'
+import { usePipeline } from '@ludoows/tubby-react'
 
 function OrderSummary({ orderId }: { orderId: string }) {
   const { data, loading, error, run } = usePipeline(

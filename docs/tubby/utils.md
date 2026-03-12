@@ -9,7 +9,7 @@ All utilities return a `Step` and can be dropped into any `.through([...])` call
 Transforms the payload.
 
 ```ts
-import { map } from 'tubby'
+import { map } from '@ludoows/tubby'
 
 map((order) => ({ ...order, total: order.price * order.qty }))
 ```
@@ -28,7 +28,7 @@ map<P, C extends Context = Context>(
 Side effect. Receives the payload, does not modify it.
 
 ```ts
-import { tap } from 'tubby'
+import { tap } from '@ludoows/tubby'
 
 tap((order, ctx) => {
   logger.info('Processing order', { id: order.id, user: ctx.userId })
@@ -49,7 +49,7 @@ tap<P, C extends Context = Context>(
 Conditional branching. Runs one set of steps or another depending on the condition.
 
 ```ts
-import { branch } from 'tubby'
+import { branch } from '@ludoows/tubby'
 
 branch({
   if: (order) => order.isPremium,
@@ -74,7 +74,7 @@ branch<P, C extends Context = Context>(options: {
 Runs the step only if the condition is true. Otherwise passes the payload through.
 
 ```ts
-import { when } from 'tubby'
+import { when } from '@ludoows/tubby'
 
 when(
   (order) => order.couponCode !== null,
@@ -97,7 +97,7 @@ when<P, C extends Context = Context>(
 Inverse of `when`. Runs the step only if the condition is false.
 
 ```ts
-import { unless } from 'tubby'
+import { unless } from '@ludoows/tubby'
 
 unless(
   (order) => order.isInternal,
@@ -120,7 +120,7 @@ unless<P, C extends Context = Context>(
 Pauses execution for `ms` milliseconds.
 
 ```ts
-import { delay } from 'tubby'
+import { delay } from '@ludoows/tubby'
 
 delay(500)
 ```
@@ -137,7 +137,7 @@ delay<P>(ms: number): Step<P, Context>
 Retries a step on failure with exponential backoff.
 
 ```ts
-import { retry } from 'tubby'
+import { retry } from '@ludoows/tubby'
 
 retry(fetchExternalData, {
   attempts: 3,
@@ -176,7 +176,7 @@ retry<P, C extends Context = Context>(
 Throws a `TimeoutError` if the step takes longer than `ms` milliseconds.
 
 ```ts
-import { timeout, TimeoutError } from 'tubby'
+import { timeout, TimeoutError } from '@ludoows/tubby'
 
 timeout(fetchExternalData, 3000)
 ```
@@ -202,7 +202,7 @@ timeout<P, C extends Context = Context>(
 Merges extra fields into the payload.
 
 ```ts
-import { merge } from 'tubby'
+import { merge } from '@ludoows/tubby'
 
 merge({ source: 'api', processedAt: new Date() })
 ```
@@ -219,7 +219,7 @@ merge<P extends object, E extends object>(extra: E): Step<P, Context>
 Keeps only the specified keys in the payload.
 
 ```ts
-import { pick } from 'tubby'
+import { pick } from '@ludoows/tubby'
 
 pick(['id', 'name', 'email'])
 ```
@@ -236,7 +236,7 @@ pick<P extends object, K extends keyof P>(keys: K[]): Step<P, Context>
 Runs steps concurrently against the same payload, then merges all results with `Object.assign`.
 
 ```ts
-import { parallel } from 'tubby'
+import { parallel } from '@ludoows/tubby'
 
 parallel([fetchUserProfile, fetchUserOrders, fetchUserPreferences])
 ```
@@ -257,7 +257,7 @@ parallel<P extends object, C extends Context = Context>(
 Runs two sub-pipelines and merges their outputs. Both must be `Step` instances (use `Pipeline.define()` to wrap a sequence).
 
 ```ts
-import { combine, Pipeline } from 'tubby'
+import { combine, Pipeline } from '@ludoows/tubby'
 
 const pricing  = Pipeline.define([applyTax, applyDiscount])
 const shipping = Pipeline.define([calculateShipping])
@@ -290,7 +290,7 @@ combine<P, C extends Context = Context>(
 Executes a step only on the first call. Subsequent calls return the cached result.
 
 ```ts
-import { once } from 'tubby'
+import { once } from '@ludoows/tubby'
 
 const loadConfig = once(fetchRemoteConfig)
 

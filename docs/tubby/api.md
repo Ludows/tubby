@@ -5,7 +5,7 @@
 Alias for `Pipeline.send(payload)`. Returns a `PipelineBuilder`.
 
 ```ts
-import { pipeline } from 'tubby'
+import { pipeline } from '@ludoows/tubby'
 
 pipeline({ id: 1, name: 'alice' })
 ```
@@ -182,7 +182,7 @@ Marks steps to skip during this execution. Skipped steps are tracked in `onStep`
 Runs two sub-pipelines and merges their output.
 
 ```ts
-import { Pipeline } from 'tubby'
+import { Pipeline } from '@ludoows/tubby'
 
 const enriched = Pipeline.define([fetchUserData])
 const priced   = Pipeline.define([applyPricing])
@@ -269,7 +269,7 @@ interface StepSnapshot<TPayload> {
 Wraps a sequence of steps into a single reusable `Step`. Useful for composing sub-pipelines.
 
 ```ts
-import { Pipeline } from 'tubby'
+import { Pipeline } from '@ludoows/tubby'
 
 const pricingPipeline = Pipeline.define([applyTax, applyDiscount])
 
@@ -296,7 +296,7 @@ import type {
   CombineOptions,
   EnsureOptions,
   InspectOptions,
-} from 'tubby'
+} from '@ludoows/tubby'
 ```
 
 ```ts
@@ -326,7 +326,7 @@ type Stop<TPayload> = (value: TPayload) => StopSignal<TPayload>
 ## Errors
 
 ```ts
-import { TubbyError, PipelineError, TimeoutError } from 'tubby'
+import { TubbyError, PipelineError, TimeoutError } from '@ludoows/tubby'
 ```
 
 | Class | When |

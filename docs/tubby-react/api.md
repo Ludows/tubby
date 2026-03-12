@@ -3,7 +3,7 @@
 ## `usePipeline(factory, options?)`
 
 ```ts
-import { usePipeline } from 'tubby-react'
+import { usePipeline } from '@ludoows/tubby-react'
 ```
 
 **Signature:**
@@ -132,7 +132,7 @@ function SearchModal({ open }: { open: boolean }) {
 The hook injects `signal` into the pipeline context automatically.
 
 ```ts
-import type { Step } from 'tubby'
+import type { Step } from '@ludoows/tubby'
 
 const fetchData: Step<{ url: string }, { signal: AbortSignal }> = {
   name: 'fetchData',
@@ -154,7 +154,7 @@ import type {
   UsePipelineOptions,
   UsePipelineResult,
   PipelineState,
-} from 'tubby-react'
+} from '@ludoows/tubby-react'
 ```
 
 ```ts

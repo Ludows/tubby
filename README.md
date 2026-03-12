@@ -3,7 +3,7 @@
 Pipeline orchestrator for TypeScript — lightweight, expressive, fully typed.
 
 ```sh
-npm install tubby
+npm install @ludoows/tubby
 ```
 
 ---
@@ -13,7 +13,7 @@ npm install tubby
 Tubby lets you compose async operations as a sequence of typed **steps**. Each step receives a payload, does its thing, and hands it to the next.
 
 ```ts
-import { pipeline, map, tap, retry, timeout } from 'tubby'
+import { pipeline, map, tap, retry, timeout } from '@ludoows/tubby'
 
 const result = await pipeline({ orderId: '123', total: 99 })
   .give({ userId: 'u_42' })
@@ -33,7 +33,7 @@ No magic. No decorators. Just functions and objects.
 
 ## Packages
 
-### `tubby` — core
+### `@ludoows/tubby` — core
 
 The pipeline engine. Works anywhere TypeScript runs.
 
@@ -48,10 +48,10 @@ The pipeline engine. Works anywhere TypeScript runs.
 
 ---
 
-### `tubby-react` — React integration
+### `@ludoows/tubby-react` — React integration
 
 ```sh
-npm install tubby tubby-react
+npm install @ludoows/tubby @ludoows/tubby-react
 ```
 
 A single hook — `usePipeline` — that wraps any pipeline with `data`, `loading`, and `error` state. Handles cancellation automatically.
@@ -95,7 +95,7 @@ Issues and PRs are welcome.
 **To get started:**
 
 ```sh
-git clone https://github.com/your-org/tubby
+git clone https://github.com/Ludows/tubby
 cd tubby && npm install
 npm test
 

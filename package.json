@@ -1,5 +1,5 @@
 {
-  "name": "tubby",
+  "name": "@ludoows/tubby",
   "version": "0.1.0",
   "description": "Pipeline orchestrator for TypeScript. Lightweight, expressive, fully typed.",
   "main": "./dist/index.js",
