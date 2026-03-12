@@ -28,6 +28,14 @@
     "typescript",
     "middleware"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ludows/tubby.git"
+  },
+  "homepage": "https://github.com/Ludows/tubby#readme",
+  "bugs": {
+    "url": "https://github.com/Ludows/tubby/issues"
+  },
   "license": "MIT",
   "devDependencies": {
     "@vitest/coverage-v8": "^1.0.0",

@@ -37,5 +37,14 @@
     "dist"
   ],
   "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ludows/tubby.git",
+    "directory": "tubby-react"
+  },
+  "homepage": "https://github.com/Ludows/tubby/tree/main/tubby-react#readme",
+  "bugs": {
+    "url": "https://github.com/Ludows/tubby/issues"
+  },
   "license": "MIT"
 }
