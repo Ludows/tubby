@@ -2,8 +2,8 @@
  * @vitest-environment jsdom
  */
 import { act, renderHook, waitFor } from "@testing-library/react";
-import type { Step } from "tubby";
-import { pipeline } from "tubby";
+import type { Step } from "@ludoows/tubby";
+import { pipeline } from "@ludoows/tubby";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { PipelineFactory } from "../src/types";
 import { reducer, usePipeline } from "../src/usePipeline";
