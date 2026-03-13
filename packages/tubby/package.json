@@ -1,0 +1,48 @@
+{
+  "name": "@ludoows/tubby",
+  "version": "0.2.0",
+  "description": "Pipeline orchestrator for TypeScript. Lightweight, expressive, fully typed.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": [
+    "pipeline",
+    "orchestrator",
+    "typescript",
+    "middleware"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ludows/tubby.git",
+    "directory": "packages/tubby"
+  },
+  "homepage": "https://github.com/Ludows/tubby#readme",
+  "bugs": {
+    "url": "https://github.com/Ludows/tubby/issues"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@vitest/coverage-v8": "^1.0.0",
+    "jsdom": "^24.1.3",
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  }
+}

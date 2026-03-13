@@ -44,7 +44,7 @@ The pipeline engine. Works anywhere TypeScript runs.
 - Built-in utilities: `map`, `tap`, `branch`, `when`, `unless`, `retry`, `timeout`, `delay`, `merge`, `pick`, `parallel`, `combine`, `once`
 - Observability: `inspect()`, `measure()`, `onStep()`, `collect()`
 
-→ [Documentation](https://github.com/Ludows/tubby/blob/main/docs/tubby/README.md) · [Full API](https://github.com/Ludows/tubby/blob/main/docs/tubby/api.md) · [Utilities](https://github.com/Ludows/tubby/blob/main/docs/tubby/utils.md)
+→ [Documentation](https://github.com/Ludows/tubby/blob/main/packages/tubby/docs/README.md) · [Full API](https://github.com/Ludows/tubby/blob/main/packages/tubby/docs/api.md) · [Utilities](https://github.com/Ludows/tubby/blob/main/packages/tubby/docs/utils.md)
 
 ---
 
@@ -66,7 +66,7 @@ const { data, loading, error, run } = usePipeline(
 Modes: run at mount, re-run on deps change, or trigger manually.
 Requests are cancelled on unmount and on re-run.
 
-→ [Documentation](https://github.com/Ludows/tubby/blob/main/docs/tubby-react/README.md) · [Full API](https://github.com/Ludows/tubby/blob/main/docs/tubby-react/api.md)
+→ [Documentation](https://github.com/Ludows/tubby/blob/main/packages/tubby-react/docs/README.md) · [Full API](https://github.com/Ludows/tubby/blob/main/packages/tubby-react/docs/api.md)
 
 ---
 
@@ -97,16 +97,16 @@ Issues and PRs are welcome.
 ```sh
 git clone https://github.com/Ludows/tubby
 cd tubby && npm install
-npm test
-
-cd tubby-react && npm install
+npm run build
 npm test
 ```
+
+npm workspaces handles all packages at once from the root.
 
 A few guidelines:
 
 - Keep it minimal. Every addition has a cost.
-- New utilities belong in `src/utils/` and should follow the existing pattern.
+- New utilities belong in `packages/tubby/src/utils/` and should follow the existing pattern.
 - PRs should include tests and update the relevant doc if behavior changes.
 
 Open an issue first if you're planning something significant.
