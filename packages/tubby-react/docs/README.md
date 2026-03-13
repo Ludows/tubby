@@ -8,6 +8,22 @@ React integration for tubby. Wraps any pipeline in a hook with loading, error, a
 npm install @ludoows/tubby @ludoows/tubby-react
 ```
 
+Via CDN (requires React and tubby to be loaded first):
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js"></script>
+<!-- development -->
+<script src="https://cdn.jsdelivr.net/npm/@ludoows/tubby/dist/index.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@ludoows/tubby-react/dist/index.global.js"></script>
+<!-- production (minified) -->
+<script src="https://cdn.jsdelivr.net/npm/@ludoows/tubby/dist/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@ludoows/tubby-react/dist/index.global.min.js"></script>
+<script>
+  const { usePipeline } = TubbyReact
+</script>
+```
+
 Requires React ≥ 18 as a peer dependency.
 
 ## Quick start

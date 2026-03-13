@@ -8,6 +8,18 @@ Pipeline orchestrator for TypeScript. Lightweight, expressive, fully typed.
 npm install @ludoows/tubby
 ```
 
+Via CDN:
+
+```html
+<!-- development -->
+<script src="https://cdn.jsdelivr.net/npm/@ludoows/tubby/dist/index.global.js"></script>
+<!-- production (minified) -->
+<script src="https://cdn.jsdelivr.net/npm/@ludoows/tubby/dist/index.global.min.js"></script>
+<script>
+  const { pipeline, tap, retry } = Tubby
+</script>
+```
+
 ## Quick start
 
 ```ts

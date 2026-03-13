@@ -1,6 +1,6 @@
 {
   "name": "@ludoows/tubby",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipeline orchestrator for TypeScript. Lightweight, expressive, fully typed.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
