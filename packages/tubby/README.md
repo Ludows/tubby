@@ -37,7 +37,9 @@ No magic. No decorators. Just functions and objects.
 - Typed payload and context throughout the chain
 - Step-level error recovery with `onError`
 - Guards with `ensure()`, early exit with `stop()`
-- Built-in utilities: `map`, `tap`, `branch`, `when`, `unless`, `retry`, `timeout`, `delay`, `merge`, `pick`, `parallel`, `combine`, `once`
+- Built-in utilities: `map`, `tap`, `branch`, `when`, `unless`, `retry`, `timeout`, `delay`, `merge`, `pick`, `parallel`, `combine`, `once`, `race`, `fallback`, `loop`
+- Abort support via `.withSignal(AbortSignal)`
+- Real-time step streaming with `.thenStream()`
 - Observability: `inspect()`, `measure()`, `onStep()`, `collect()`
 
 ---

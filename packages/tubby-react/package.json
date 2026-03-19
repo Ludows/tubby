@@ -1,6 +1,6 @@
 {
   "name": "@ludoows/tubby-react",
-  "version": "0.2.2",
+  "version": "1.0.0",
   "description": "React integration for Tubby pipeline orchestrator",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

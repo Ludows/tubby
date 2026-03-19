@@ -231,7 +231,7 @@ pick<P extends object, K extends keyof P>(keys: K[]): Step<P, Context>
 
 ---
 
-## `parallel(steps)`
+## `parallel(steps, options?)`
 
 Runs steps concurrently against the same payload, then merges all results with `Object.assign`.
 
@@ -243,10 +243,21 @@ parallel([fetchUserProfile, fetchUserOrders, fetchUserPreferences])
 
 Each step receives the original payload independently. Results are merged shallowly.
 
+Use the `concurrency` option to limit how many steps run at the same time (worker-pool pattern):
+
+```ts
+// at most 2 steps run simultaneously
+parallel(steps, { concurrency: 2 })
+
+// execute one at a time, in order (equivalent to sequential)
+parallel(steps, { concurrency: 1 })
+```
+
 **Signature:**
 ```ts
 parallel<P extends object, C extends Context = Context>(
-  steps: Step<P, C>[]
+  steps: Step<P, C>[],
+  options?: { concurrency?: number }
 ): Step<P, C>
 ```
 
@@ -300,4 +311,83 @@ const loadConfig = once(fetchRemoteConfig)
 **Signature:**
 ```ts
 once<P, C extends Context = Context>(step: Step<P, C>): Step<P, C>
+```
+
+---
+
+## `race(steps)`
+
+Runs all steps concurrently and returns the result of the first one to resolve. Ignores failures unless all steps fail.
+
+```ts
+import { race } from '@ludoows/tubby'
+
+race([fetchFromRegionA, fetchFromRegionB, fetchFromRegionC])
+```
+
+If all steps throw, a `PipelineError` is thrown. If the array is empty, the payload passes through unchanged.
+
+**Signature:**
+```ts
+race<P, C extends Context = Context>(steps: Step<P, C>[]): Step<P, C>
+```
+
+---
+
+## `fallback(primary, backup)`
+
+Runs the primary step. If it throws, runs the backup step instead.
+
+```ts
+import { fallback } from '@ludoows/tubby'
+
+fallback(fetchFromRemoteCache, fetchFromDatabase)
+```
+
+If both throw, the error from the backup step is propagated as a `PipelineError`.
+
+The generated step name is `fallback(<primaryName>)`.
+
+**Signature:**
+```ts
+fallback<P, C extends Context = Context>(
+  primary: Step<P, C>,
+  backup: Step<P, C>
+): Step<P, C>
+```
+
+---
+
+## `loop(step, options)`
+
+Repeats a step until a condition is met or a maximum number of attempts is reached.
+
+```ts
+import { loop } from '@ludoows/tubby'
+
+loop(pollJobStatus, {
+  until: (payload) => payload.status === 'done',
+  maxAttempts: 10,
+  delay: 1000,   // ms between iterations
+})
+```
+
+- `until` — called after each iteration; stops when it returns `true`. Can be async.
+- `maxAttempts` — hard cap on iterations (default: `Infinity`).
+- `delay` — milliseconds to wait between iterations (default: `0`).
+
+The generated step name is `loop(<stepName>)`.
+
+**Signature:**
+```ts
+loop<P, C extends Context = Context>(
+  step: Step<P, C>,
+  options: LoopOptions<P>
+): Step<P, C>
+
+interface LoopOptions<P> {
+  until: (payload: P) => boolean | Promise<boolean>
+  maxAttempts?: number
+  delay?: number
+}
 ```

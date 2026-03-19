@@ -395,6 +395,55 @@ describe("usePipeline", () => {
     expect(onCancel).toHaveBeenCalledTimes(1);
     expect(onError).not.toHaveBeenCalled();
   });
+
+  // 16.
+  it("non-Error thrown directly by the factory is wrapped in Error", async () => {
+    vi.useRealTimers();
+
+    // The factory throws a raw string — not wrapped by the pipeline — so the
+    // `err instanceof Error` false-branch on line 87 of usePipeline.ts is reached.
+    const factory: PipelineFactory<{ value: string }> = () => {
+      // eslint-disable-next-line @typescript-eslint/no-throw-literal
+      throw "raw string from factory" as never;
+    };
+
+    const { result } = renderHook(() => usePipeline(factory));
+
+    act(() => {
+      result.current.run();
+    });
+
+    await waitFor(() => {
+      expect(result.current.error).toBeInstanceOf(Error);
+    });
+    expect(result.current.error?.message).toContain("raw string from factory");
+  });
+
+  // 17.
+  it("cancellation without onCancel callback does not throw", async () => {
+    vi.useRealTimers();
+
+    // Run then immediately run again — cancels the first without any onCancel option
+    const factory: PipelineFactory<{ value: string }> = () =>
+      pipeline({ value: "test" }).through([SlowStep]);
+
+    const { result } = renderHook(() => usePipeline(factory));
+
+    act(() => {
+      result.current.run();
+    });
+    // Immediately trigger a second run, which cancels the first.
+    // No onCancel provided → the options?.onCancel?.() branch takes the falsy path.
+    act(() => {
+      result.current.run();
+    });
+
+    await waitFor(() => {
+      expect(result.current.loading).toBe(false);
+    });
+
+    expect(result.current.data).toEqual({ value: "slow_done" });
+  });
 });
 
 // ─── Reducer Tests ────────────────────────────────────────

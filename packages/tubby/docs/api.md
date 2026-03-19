@@ -177,6 +177,32 @@ Marks steps to skip during this execution. Skipped steps are tracked in `onStep`
 .skip(auditStep, notificationStep)
 ```
 
+### `.withSignal(signal)`
+
+Attaches an `AbortSignal` to the pipeline. If the signal is aborted — either before the pipeline starts or between any two steps — execution throws a `PipelineError` with step name `"abort"`.
+
+```ts
+const controller = new AbortController()
+
+// abort after 5 seconds
+setTimeout(() => controller.abort(), 5000)
+
+await pipeline(order)
+  .withSignal(controller.signal)
+  .through([stepA, stepB, stepC])
+  .thenReturn()
+```
+
+The error can be caught with `.catch()`:
+
+```ts
+.withSignal(signal)
+.catch((err, payload) => {
+  if (err.step === 'abort') return { ...payload, cancelled: true }
+  throw err
+})
+```
+
 ### `.combine(pipelineA, pipelineB, options?)`
 
 Runs two sub-pipelines and merges their output.
@@ -261,6 +287,30 @@ interface StepSnapshot<TPayload> {
   skipped?: boolean
 }
 ```
+
+### `.thenStream()`
+
+Returns an `AsyncGenerator` that yields a `StepSnapshot` after each step completes. Useful for real-time progress reporting without waiting for the whole pipeline to finish.
+
+```ts
+for await (const snapshot of pipeline(order).through([stepA, stepB, stepC]).thenStream()) {
+  console.log(`${snapshot.step} done in ${snapshot.duration}ms`, snapshot.payload)
+}
+```
+
+If a step throws, the error is re-thrown after the generator is exhausted:
+
+```ts
+try {
+  for await (const snapshot of pipeline(order).through([...]).thenStream()) {
+    reportProgress(snapshot)
+  }
+} catch (err) {
+  // PipelineError from the failing step
+}
+```
+
+Skipped steps (via `.skip()`) are yielded with `skipped: true`.
 
 ---
 

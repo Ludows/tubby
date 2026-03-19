@@ -62,6 +62,7 @@ export class PipelineBuilder<
   private _inspectOptions: InspectOptions | null = null;
   private _measureEnabled = false;
   private _skippedSteps: Set<Step<TPayload, TContext>> = new Set();
+  private _signal: AbortSignal | null = null;
 
   constructor(payload: TPayload) {
     this._payload = payload;
@@ -206,6 +207,11 @@ export class PipelineBuilder<
     return this;
   }
 
+  withSignal(signal: AbortSignal): PipelineBuilder<TPayload, TContext> {
+    this._signal = signal;
+    return this;
+  }
+
   private async _resolveSteps(): Promise<Step<TPayload, TContext>[]> {
     const allSteps: Step<TPayload, TContext>[] = [];
     for (const provider of this._stepProviders) {
@@ -322,6 +328,11 @@ export class PipelineBuilder<
 
         const step = steps[index];
         const stepName = getStepName(step);
+
+        if (this._signal?.aborted) {
+          throw new PipelineError("abort", currentPayload, new Error("Pipeline aborted"));
+        }
+
         const isSkipped = this._skippedSteps.has(step);
 
         if (isSkipped) {
@@ -489,6 +500,10 @@ export class PipelineBuilder<
     let stopped = false;
 
     try {
+      if (this._signal?.aborted) {
+        throw new PipelineError("abort", this._payload, new Error("Pipeline aborted"));
+      }
+
       // 1. Check ensures
       try {
         const ensurePassed = await this._checkEnsures();
@@ -639,6 +654,53 @@ export class PipelineBuilder<
     const { ensureFailed } = await this._execute(snapshots);
     if (ensureFailed) return [];
     return snapshots;
+  }
+
+  async *thenStream(): AsyncGenerator<StepSnapshot<TPayload>, void, unknown> {
+    const queue: StepSnapshot<TPayload>[] = [];
+    let done = false;
+    let pipelineError: unknown = null;
+    let wakeup: (() => void) | null = null;
+
+    const notify = () => {
+      const fn = wakeup;
+      wakeup = null;
+      fn?.();
+    };
+
+    this._onStepCallbacks.push((event) => {
+      queue.push({
+        step: event.step,
+        payload: event.payloadAfter,
+        duration: event.duration,
+        skipped: event.status === "skipped",
+      });
+      notify();
+    });
+
+    const executionPromise = this._execute()
+      .then(() => {
+        done = true;
+        notify();
+      })
+      .catch((err: unknown) => {
+        pipelineError = err;
+        done = true;
+        notify();
+      });
+
+    while (!done || queue.length > 0) {
+      if (queue.length > 0) {
+        yield queue.shift()!;
+      } else {
+        await new Promise<void>((resolve) => {
+          wakeup = resolve;
+        });
+      }
+    }
+
+    await executionPromise;
+    if (pipelineError !== null) throw pipelineError;
   }
 }
 
